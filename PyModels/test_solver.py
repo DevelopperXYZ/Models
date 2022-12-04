@@ -1,5 +1,7 @@
 import unittest
-from solver import solver, ode
+from solver import solver, ode, ObjectBase
+
+# import matplotlib.pyplot as plt
 
 
 class Connection:
@@ -10,12 +12,12 @@ class Connection:
         self.f2 = None
 
 
-class Node:
+class Node(ObjectBase):
     def __init__(self, name: str) -> None:
+        super().__init__(name)
         self.name = name
-        self.ode1 = ode(self, "P1", "dP1dt")
-        self.ode2 = ode(self, "P2", "dP2dt")
-        self.equations = [self.ode1, self.ode2]
+        self.add_ode("P1", "dP1dt")
+        self.add_ode("P2", "dP1dt")
         self.P1 = 1.0
         self.P2 = 2.0
         self.dP1dt = 1.0
@@ -71,10 +73,17 @@ class test_solver(unittest.TestCase):
         n1.P1 = 5.0
         n1.P2 = 6.0
         t, y, names = s.integrate(tspan=[0, 3], method="LSODA")
-        self.assertAlmostEqual(y[0][-1], 3.004957201640015)
-        self.assertAlmostEqual(y[1][-1], 4.00001235911829)
-        self.assertAlmostEqual(y[2][-1], 2.995042798359984)
-        self.assertAlmostEqual(y[3][-1], 3.999987640881714)
+        # plt.plot(t, y[0], "+-", label=names[0])
+        # plt.plot(t, y[1], "+-", label=names[1])
+        # plt.plot(t, y[2], "+-", label=names[2])
+        # plt.plot(t, y[3], "+-", label=names[3])
+        # plt.grid()
+        # plt.legend()
+        # plt.show()
+        self.assertAlmostEqual(y[0][-1], 3.0049575048289983)
+        self.assertAlmostEqual(y[1][-1], 4.004957504828998)
+        self.assertAlmostEqual(y[2][-1], 2.9950424951710004)
+        self.assertAlmostEqual(y[3][-1], 3.995042495171)
 
 
 if __name__ == "__main__":

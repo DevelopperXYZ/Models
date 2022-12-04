@@ -89,3 +89,12 @@ class solver:
             for i_var in dxdt.diff.keys():
                 jacobian[i_edo][i_var] = dxdt.val(i_var)
         return jacobian
+
+
+class ObjectBase:
+    def __init__(self, name: str) -> None:
+        self.name = name
+        self.equations = list()
+
+    def add_ode(self, x_name: str, dxdt_name: str):
+        self.equations.append(ode(object_adress=self, x_name=x_name, dxdt_name=dxdt_name))
