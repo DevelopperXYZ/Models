@@ -1,5 +1,5 @@
 import unittest
-from solver import solver, ode, ObjectBase
+from solver import solver, ode, object_base
 
 # import matplotlib.pyplot as plt
 
@@ -12,7 +12,7 @@ class Connection:
         self.f2 = None
 
 
-class Node(ObjectBase):
+class Node(object_base):
     def __init__(self, name: str) -> None:
         super().__init__(name)
         self.name = name
@@ -39,8 +39,9 @@ class Node(ObjectBase):
         self.dP2dt = f2
 
 
-class Arc:
+class Arc(object_base):
     def __init__(self, name: str) -> None:
+        super().__init__(name)
         self.name = name
         self.c1 = Connection()
         self.c2 = Connection()
@@ -50,7 +51,6 @@ class Arc:
         f2 = 2.0 * (self.c1.P2 - self.c2.P2)
         self.c1.f1 = -f1
         self.c1.f2 = -f2
-
         self.c2.f1 = f1
         self.c2.f2 = f2
 

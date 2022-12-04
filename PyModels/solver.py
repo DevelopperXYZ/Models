@@ -82,16 +82,18 @@ class solver:
         for i_edo, edo in enumerate(self._odes):
             edo.set_x(derivative(y[i_edo], i_edo))
         self._compute_system()
-        N = len(self.edos)
+        N = len(self._odes)
         jacobian = [[0.0 for i in range(N)] for i in range(N)]
         for i_edo, edo in enumerate(self._odes):
             dxdt = edo.dxdt()
             for i_var in dxdt.diff.keys():
                 jacobian[i_edo][i_var] = dxdt.val(i_var)
+        for i_edo, edo in enumerate(self._odes):
+            edo.set_x(y[i_edo])
         return jacobian
 
 
-class ObjectBase:
+class object_base:
     def __init__(self, name: str) -> None:
         self.name = name
         self.equations = list()
